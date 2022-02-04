@@ -20,7 +20,6 @@
     "react-scripts": "4.0.3",
     "react-syntax-highlighter": "^15.4.5",
     "rxjs": "^7.5.2",
-    "sss-module": "^0.0.2",
     "symbol-sdk": "^1.0.3",
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4"

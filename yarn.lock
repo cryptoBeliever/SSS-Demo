@@ -10994,15 +10994,6 @@
   dependencies:
     "minipass" "^3.1.1"
 
-"sss-module@^0.0.2":
-  "integrity" "sha512-bVWy2wt1XYc/2Rg2dMHzo1HOek9CBbQpWklxAfUwcY7G1OAfZAH2yFBDfDzXddfUt6Z/a5wmTTM1wzVbqv71yw=="
-  "resolved" "https://registry.npmjs.org/sss-module/-/sss-module-0.0.2.tgz"
-  "version" "0.0.2"
-  dependencies:
-    "rxjs" "^7.5.2"
-    "symbol-sdk" "^1.0.3"
-    "typescript" "^4.5.5"
-
 "stable@^0.1.8":
   "integrity" "sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w=="
   "resolved" "https://registry.npmjs.org/stable/-/stable-0.1.8.tgz"

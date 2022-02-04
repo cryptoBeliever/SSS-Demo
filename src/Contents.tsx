@@ -12,7 +12,10 @@ import {
   UInt64,
 } from 'symbol-sdk'
 
-import SSS from 'sss-module'
+interface SSSWindow extends Window {
+  SSS: any
+}
+declare const window: SSSWindow
 
 function App() {
   const [address, setAddress] = useState<string>('')
@@ -21,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (isRequest) {
-      SSS.requestSign().then((signedTx: SignedTransaction) => {
+      window.SSS.requestSign().then((signedTx: SignedTransaction) => {
         new TransactionHttp('https://sym-test.opening-line.jp:3001')
           .announce(signedTx)
           .subscribe(
@@ -52,7 +55,7 @@ function App() {
       UInt64.fromUint(2000000)
     )
 
-    SSS.setTransaction(tx)
+    window.SSS.setTransaction(tx)
 
     setIsRequest(true)
   }
