@@ -13,6 +13,7 @@ import {
   TransferTransaction,
   UInt64,
 } from 'symbol-sdk'
+import { TransactionURI } from 'symbol-uri-scheme'
 
 interface SSSWindow extends Window {
   SSS: any

@@ -11,6 +11,10 @@ import Demo4 from './pages/Demo4'
 import Demo5 from './pages/Demo5'
 import Demo6 from './pages/Demo6'
 import Demo7 from './pages/Demo7'
+import Demo8 from './pages/Demo8'
+import Demo9 from './pages/Demo9'
+import Demo10 from './pages/Demo10'
+import Demo11 from './pages/Demo11'
 
 const Router: React.VFC = () => {
   return (
@@ -25,6 +29,10 @@ const Router: React.VFC = () => {
         <Route path="/demo5" element={<Demo5 />} />
         <Route path="/demo6" element={<Demo6 />} />
         <Route path="/demo7" element={<Demo7 />} />
+        <Route path="/demo8" element={<Demo8 />} />
+        <Route path="/demo9" element={<Demo9 />} />
+        <Route path="/demo10" element={<Demo10 />} />
+        <Route path="/demo11" element={<Demo11 />} />
       </Routes>
     </BrowserRouter>
   )

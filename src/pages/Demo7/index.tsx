@@ -7,19 +7,10 @@ import Contents from './Contents'
 
 // import Contents from './Contents'
 const App = () => {
-  const codeString = `import React, { Dispatch, useEffect, useState } from 'react'
+  const codeString = `import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { Button, Grid, TextField, Typography } from '@mui/material'
-import {
-  Address,
-  Deadline,
-  NetworkType,
-  PlainMessage,
-  SignedTransaction,
-  TransactionHttp,
-  TransferTransaction,
-  UInt64,
-} from 'symbol-sdk'
+import { NetworkType, PublicAccount } from 'symbol-sdk'
+import { Button } from '@mui/material'
 
 interface SSSWindow extends Window {
   SSS: any
@@ -27,78 +18,34 @@ interface SSSWindow extends Window {
 declare const window: SSSWindow
 
 function App() {
-  const [address, setAddress] = useState<string>('')
-  const [message, setMessage] = useState<string>('')
-  const [isRequest, setIsRequest] = useState<boolean>(false)
+  const [account, setAccount] = useState<PublicAccount | null>(null)
 
-  useEffect(() => {
-    if (isRequest) {
-      window.SSS.requestSign().then((signedTx: SignedTransaction) => {
-        new TransactionHttp('https://sym-test.opening-line.jp:3001')
-          .announce(signedTx)
-          .subscribe(
-            (x) => {
-              console.log('x', x)
-              setIsRequest(false)
-            },
-            (err) => {
-              console.error(err)
-              setIsRequest(false)
-            }
-          )
-      })
+  const login = () => {
+    if (!window.SSS) {
+      console.log('not installed')
+    } else {
+      console.log('installed', window.SSS.activePublicKey)
+      const acc = PublicAccount.createFromPublicKey(
+        window.SSS.activePublicKey,
+        NetworkType.TEST_NET
+      )
+      setAccount(acc)
     }
-  }, [isRequest])
-
-  const handleChange = (state: string, setState: Dispatch<string>) => {
-    setState(state)
-  }
-
-  const submit = () => {
-    const tx = TransferTransaction.create(
-      Deadline.create(1637848847),
-      Address.createFromRawAddress(address),
-      [],
-      PlainMessage.create(message),
-      NetworkType.TEST_NET,
-      UInt64.fromUint(2000000)
-    )
-
-    window.SSS.setTransaction(tx)
-
-    setIsRequest(true)
   }
 
   return (
     <Root>
-      <Header>
-        <Typography variant="h4">SSS Extension DEMO</Typography>
-        <Typography variant="subtitle2">
-          Reactで作成したWebアプリケーションへSSSを導入するデモです。テストネットでTransferができます。
-        </Typography>
-      </Header>
-      <Spacer>
-        <TextField
-          fullWidth
-          label="Address"
-          onChange={(e) => handleChange(e.target.value, setAddress)}
-        />
-      </Spacer>
-      <Spacer>
-        <TextField
-          fullWidth
-          label="Message"
-          onChange={(e) => handleChange(e.target.value, setMessage)}
-        />
-      </Spacer>
-      <Spacer>
-        <Flex>
-          <Grid sx={{ flexGrow: 1 }} />
-          <Button variant="outlined" onClick={submit} sx={{ margin: '8px' }}>
-            SSSで署名
-          </Button>
-        </Flex>
-      </Spacer>
+      {account ? (
+        <Spacer>
+          ログイン成功
+          <Spacer>Address : {account.address.plain()}</Spacer>
+          <Spacer>PublicKey : {account.publicKey}</Spacer>
+        </Spacer>
+      ) : (
+        <Spacer>
+          <Button onClick={login}>LOGIN</Button>
+        </Spacer>
+      )}
     </Root>
   )
 }
@@ -112,17 +59,9 @@ const Root = styled('div')({
   boxSizing: 'border-box',
 })
 
-const Header = styled('div')({
-  marginBottom: '40px',
-})
 const Spacer = styled('div')({
   margin: '16px',
 })
-
-const Flex = styled('div')({
-  display: 'flex',
-})
-
   `
   return (
     <>

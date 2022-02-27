@@ -3,11 +3,11 @@ import styled from '@emotion/styled'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import {
   Address,
+  AggregateTransaction,
   Deadline,
-  Mosaic,
-  MosaicId,
   NetworkType,
   PlainMessage,
+  PublicAccount,
   SignedTransaction,
   TransactionHttp,
   TransferTransaction,
@@ -21,6 +21,7 @@ declare const window: SSSWindow
 
 function App() {
   const [address, setAddress] = useState<string>('')
+  const [address2, setAddress2] = useState<string>('')
   const [message, setMessage] = useState<string>('')
   const [isRequest, setIsRequest] = useState<boolean>(false)
 
@@ -48,21 +49,36 @@ function App() {
   }
 
   const submit = () => {
-    const tx = TransferTransaction.create(
+    const publicKey = window.SSS.activePublicKey
+    const acc = PublicAccount.createFromPublicKey(
+      publicKey,
+      NetworkType.TEST_NET
+    )
+    const tx1 = TransferTransaction.create(
       Deadline.create(1637848847),
       Address.createFromRawAddress(address),
-      [
-        new Mosaic(
-          new MosaicId('3A8416DB2D53B6C8'),
-          UInt64.fromUint(Math.pow(10, 6))
-        ),
-      ],
+      [],
+      PlainMessage.create(message),
+      NetworkType.TEST_NET,
+      UInt64.fromUint(2000000)
+    )
+    const tx2 = TransferTransaction.create(
+      Deadline.create(1637848847),
+      Address.createFromRawAddress(address2),
+      [],
       PlainMessage.create(message),
       NetworkType.TEST_NET,
       UInt64.fromUint(2000000)
     )
 
-    window.SSS.setTransaction(tx)
+    const agtx = AggregateTransaction.createComplete(
+      Deadline.create(1637848847),
+      [tx1.toAggregate(acc), tx2.toAggregate(acc)],
+      NetworkType.TEST_NET,
+      [],
+      UInt64.fromUint(2000000)
+    )
+    window.SSS.setTransaction(agtx)
 
     setIsRequest(true)
   }
@@ -72,7 +88,7 @@ function App() {
       <Header>
         <Typography variant="h4">SSS Extension DEMO</Typography>
         <Typography variant="subtitle2">
-          xymを送金することができます。1xymの送金です。
+          2人にxymを送金することができます。1xymの送金です。
         </Typography>
       </Header>
       <Spacer>
@@ -80,6 +96,13 @@ function App() {
           fullWidth
           label="Address"
           onChange={(e) => handleChange(e.target.value, setAddress)}
+        />
+      </Spacer>
+      <Spacer>
+        <TextField
+          fullWidth
+          label="Address (2人目)"
+          onChange={(e) => handleChange(e.target.value, setAddress2)}
         />
       </Spacer>
       <Spacer>

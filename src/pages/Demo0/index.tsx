@@ -11,38 +11,62 @@ const App = () => {
 import styled from '@emotion/styled'
 
 interface SSSWindow extends Window {
-  SSS: any
+  SSS: object
+  requestSSS: () => void
+  isAllowedSSS: () => boolean
 }
 declare const window: SSSWindow
 
+type State = 'ACTIVE' | 'INACTIVE' | 'NONE' | 'LOADING'
+
 function App() {
-  const [installed, setInstalled] = useState(true)
+  const [state, setState] = useState<State>('LOADING')
   useEffect(() => {
     setTimeout(() => {
-      if (!window.SSS) {
-        console.log('not installed')
-        setInstalled(false)
-      } else {
-        console.log('installed')
+      try {
+        if (window.isAllowedSSS()) {
+          setState('ACTIVE')
+        } else {
+          setState('INACTIVE')
+        }
+      } catch (e) {
+        console.error(e)
+        setState('NONE')
       }
-    }, 100) // SSSのプログラムがwindowに挿入されるよりも後に実行するために遅らせる
+    }, 200) // SSSのプログラムがwindowに挿入されるよりも後に実行するために遅らせる
   }, [])
 
-  return (
-    <Root>
-      {installed ? (
-        <Spacer>Install済みです。ありがとうございます。</Spacer>
-      ) : (
+  if (state === 'LOADING') {
+    return <Root>Now Loading...</Root>
+  }
+
+  if (state === 'NONE') {
+    return (
+      <Root>
         <Spacer>
-          Installしていません。下記リンクからインストールしてください。
+          SSSがinstallされていません。
           <a
             href="https://chrome.google.com/webstore/detail/sss-extension/llildiojemakefgnhhkmiiffonembcan"
             target="_blank"
             rel="noreferrer">
-            SSS Extensionをインストールする
+            SSS Extensionをinstallする
           </a>
         </Spacer>
-      )}
+      </Root>
+    )
+  }
+
+  if (state === 'INACTIVE') {
+    return (
+      <Root>
+        <Spacer>SSSが有効になっていません。</Spacer>
+      </Root>
+    )
+  }
+
+  return (
+    <Root>
+      <Spacer>SSSが有効になっています。Let's enjoy Symbol with SSS!</Spacer>
     </Root>
   )
 }
