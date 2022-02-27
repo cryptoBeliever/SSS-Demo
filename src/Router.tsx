@@ -18,7 +18,7 @@ import Demo11 from './pages/Demo11'
 
 const Router: React.VFC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/demo0" element={<Demo0 />} />
