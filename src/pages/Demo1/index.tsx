@@ -122,7 +122,6 @@ const Spacer = styled('div')({
 const Flex = styled('div')({
   display: 'flex',
 })
-
   `
   return (
     <>

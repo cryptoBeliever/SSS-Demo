@@ -5,18 +5,15 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { monokai as style } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import Contents from './Contents'
 
-// import Contents from './Contents'
 const App = () => {
-  const codeString = `import React, { Dispatch, useEffect, useState } from 'react'
+  const codeString = `
+  import React, { Dispatch, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import {
-  Account,
   Address,
   AggregateTransaction,
   Deadline,
-  Mosaic,
-  MosaicId,
   NetworkType,
   PlainMessage,
   PublicAccount,
@@ -103,7 +100,8 @@ function App() {
       <Header>
         <Typography variant="h4">SSS Extension DEMO</Typography>
         <Typography variant="subtitle2">
-          xymを送金することができます。1xymの送金です。
+          連署者を指定して署名を行う。requestSignWithCosignatoriesのサンプルです。
+          signTransactionWithCosignatories で署名が行われます。
         </Typography>
       </Header>
       <Spacer>
@@ -158,6 +156,7 @@ const Spacer = styled('div')({
 const Flex = styled('div')({
   display: 'flex',
 })
+
   `
   return (
     <>

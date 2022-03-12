@@ -5,13 +5,14 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { monokai as style } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import Contents from './Contents'
 
-// import Contents from './Contents'
 const App = () => {
   const codeString = `import React, { Dispatch, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import {
+  Address,
   Deadline,
+  Mosaic,
   NamespaceId,
   NetworkType,
   PlainMessage,
@@ -27,6 +28,7 @@ interface SSSWindow extends Window {
 declare const window: SSSWindow
 
 function App() {
+  const [address, setAddress] = useState<string>('')
   const [nameSpace, setNameSpace] = useState<string>('')
   const [message, setMessage] = useState<string>('')
   const [isRequest, setIsRequest] = useState<boolean>(false)
@@ -60,8 +62,8 @@ function App() {
     console.log('onegai', NamespaceId.createFromEncoded(ns.id.toHex()))
     const tx = TransferTransaction.create(
       Deadline.create(1637848847),
-      new NamespaceId(nameSpace),
-      [],
+      Address.createFromRawAddress(address),
+      [new Mosaic(new NamespaceId(nameSpace), UInt64.fromUint(1))],
       PlainMessage.create(message),
       NetworkType.TEST_NET,
       UInt64.fromUint(2000000)
@@ -83,8 +85,8 @@ function App() {
       <Spacer>
         <TextField
           fullWidth
-          label="NameSpace"
-          onChange={(e) => handleChange(e.target.value, setNameSpace)}
+          label="Address"
+          onChange={(e) => handleChange(e.target.value, setAddress)}
         />
       </Spacer>
       <Spacer>
@@ -92,6 +94,13 @@ function App() {
           fullWidth
           label="Message"
           onChange={(e) => handleChange(e.target.value, setMessage)}
+        />
+      </Spacer>
+      <Spacer>
+        <TextField
+          fullWidth
+          label="Mosaic NameSpace"
+          onChange={(e) => handleChange(e.target.value, setNameSpace)}
         />
       </Spacer>
       <Spacer>
@@ -125,7 +134,6 @@ const Spacer = styled('div')({
 const Flex = styled('div')({
   display: 'flex',
 })
-
   `
   return (
     <>

@@ -10,6 +10,16 @@ const App = () => {
         <Typography variant="h2">SSS Extension DEMO List</Typography>
       </Center>
       <Link onClick={() => navi('/demo0')}>0. SSSを有効にする</Link>
+      <Link onClick={() => navi('/demo1')}>1. メッセージを送る</Link>
+      <Link onClick={() => navi('/demo2')}>2. xymを送る</Link>
+      <Link onClick={() => navi('/demo3')}>3. モザイクを送る</Link>
+      <Link onClick={() => navi('/demo4')}>4. ネームスペース宛に送信する</Link>
+      <Link onClick={() => navi('/demo5')}>5. 2人に一斉送信する</Link>
+      <Link onClick={() => navi('/demo6')}>6. 連署者と署名を行う</Link>
+      <Link onClick={() => navi('/demo7')}>7. SSSを用いてログインする</Link>
+      <Link onClick={() => navi('/demo8')}>
+        8. モザイクをネームスペースで指定して送る
+      </Link>
     </Root>
   )
 }
