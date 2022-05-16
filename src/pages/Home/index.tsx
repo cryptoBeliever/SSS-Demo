@@ -1,9 +1,14 @@
 import styled from '@emotion/styled'
-import { Typography } from '@mui/material'
+import { Divider, Typography } from '@mui/material'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
 const App = () => {
   const navi = useNavigate()
+
+  useEffect(() => {
+    console.log('home')
+  }, [])
   return (
     <Root>
       <Center>
@@ -20,6 +25,13 @@ const App = () => {
       <Link onClick={() => navi('/demo8')}>
         8. モザイクをネームスペースで指定して送る
       </Link>
+      <Space>
+        <Divider />
+      </Space>
+      <Center>
+        <Typography variant="h2">SSS Extension Main Net Tools</Typography>
+      </Center>
+      <Link onClick={() => navi('/main1')}>1. モザイクの作成</Link>
     </Root>
   )
 }
@@ -42,4 +54,9 @@ const Root = styled('div')({
 const Center = styled('div')({
   display: 'flex',
   justifyContent: 'center',
+})
+
+const Space = styled('div')({
+  marginTop: '40px',
+  marginBottom: '40px',
 })

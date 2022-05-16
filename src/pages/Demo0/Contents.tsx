@@ -16,15 +16,17 @@ function App() {
     setTimeout(() => {
       try {
         if (window.isAllowedSSS()) {
+          console.log('ACTIVE')
           setState('ACTIVE')
         } else {
+          console.log('INACTIVE')
           setState('INACTIVE')
         }
       } catch (e) {
         console.error(e)
         setState('NONE')
       }
-    }, 200) // SSSのプログラムがwindowに挿入されるよりも後に実行するために遅らせる
+    }, 500) // SSSのプログラムがwindowに挿入されるよりも後に実行するために遅らせる
   }, [])
 
   if (state === 'LOADING') {

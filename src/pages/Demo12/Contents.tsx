@@ -2,8 +2,10 @@ import React, { Dispatch, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import {
+  Account,
   Address,
   Deadline,
+  EncryptedMessage,
   Mosaic,
   NamespaceId,
   NetworkType,
@@ -27,19 +29,16 @@ function App() {
 
   useEffect(() => {
     if (isRequest) {
-      window.SSS.requestSign().then((signedTx: SignedTransaction) => {
-        new TransactionHttp('https://sym-test.opening-line.jp:3001')
-          .announce(signedTx)
-          .subscribe(
-            (x) => {
-              console.log('x', x)
-              setIsRequest(false)
-            },
-            (err) => {
-              console.error(err)
-              setIsRequest(false)
-            }
-          )
+      window.SSS.requestSignEncription().then((message: EncryptedMessage) => {
+        console.log('resolve', message)
+
+        const acc = Account.createFromPrivateKey(
+          '891D9D7E9672925123CFB7766CE9AC740BAFED43AE78F64CE2D296F54E62E57A',
+          NetworkType.TEST_NET
+        )
+
+        const dec = acc.decryptMessage(message, acc.publicAccount)
+        console.log('dec', dec)
       })
     }
   }, [isRequest])
@@ -49,52 +48,12 @@ function App() {
   }
 
   const submit = () => {
-    const ns = new NamespaceId(nameSpace)
-
-    console.log('onegai', NamespaceId.createFromEncoded(ns.id.toHex()))
-    const tx = TransferTransaction.create(
-      Deadline.create(1637848847),
-      Address.createFromRawAddress(address),
-      [new Mosaic(new NamespaceId(nameSpace), UInt64.fromUint(1))],
-      PlainMessage.create(message),
-      NetworkType.TEST_NET,
-      UInt64.fromUint(2000000)
-    )
-
-    window.SSS.setTransaction(tx)
-
+    window.SSS.setMessage('message', window.SSS.activePublicKey)
     setIsRequest(true)
   }
 
   return (
     <Root>
-      <Header>
-        <Typography variant="h4">SSS Extension DEMO</Typography>
-        <Typography variant="subtitle2">
-          ネームスペース指定でメッセージを送れます。
-        </Typography>
-      </Header>
-      <Spacer>
-        <TextField
-          fullWidth
-          label="Address"
-          onChange={(e) => handleChange(e.target.value, setAddress)}
-        />
-      </Spacer>
-      <Spacer>
-        <TextField
-          fullWidth
-          label="Message"
-          onChange={(e) => handleChange(e.target.value, setMessage)}
-        />
-      </Spacer>
-      <Spacer>
-        <TextField
-          fullWidth
-          label="Mosaic NameSpace"
-          onChange={(e) => handleChange(e.target.value, setNameSpace)}
-        />
-      </Spacer>
       <Spacer>
         <Flex>
           <Grid sx={{ flexGrow: 1 }} />
