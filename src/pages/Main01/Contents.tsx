@@ -108,7 +108,7 @@ function App() {
       networkType
     )
 
-    const mosaicSupplyChangeTransaction = MosaicSupplyChangeTransaction.create(
+    const mosaicSupplyChangeTransaction2 = MosaicSupplyChangeTransaction.create(
       Deadline.create(epochAdjustment),
       mosaicDefinitionTransaction.mosaicId,
       MosaicSupplyChangeAction.Increase,
@@ -125,7 +125,7 @@ function App() {
             networkType
           )
         ),
-        mosaicSupplyChangeTransaction.toAggregate(
+        mosaicSupplyChangeTransaction2.toAggregate(
           PublicAccount.createFromPublicKey(
             window.SSS.activePublicKey,
             networkType
