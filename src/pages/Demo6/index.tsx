@@ -122,14 +122,14 @@ function App() {
       <Spacer>
         <TextField
           fullWidth
-          label="Address (2人目)"
+          label="Address222 (2人目)"
           onChange={(e) => handleChange(e.target.value, setAddress2)}
         />
       </Spacer>
       <Spacer>
         <TextField
           fullWidth
-          label="Message"
+          label="Message111"
           onChange={(e) => handleChange(e.target.value, setMessage)}
         />
       </Spacer>
