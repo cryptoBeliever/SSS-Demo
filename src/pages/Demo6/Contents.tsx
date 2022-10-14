@@ -73,10 +73,18 @@ function App() {
       NetworkType.TEST_NET,
       UInt64.fromUint(2000000)
     )
+    const tx3 = TransferTransaction.create(
+      Deadline.create(1637848847),
+      Address.createFromRawAddress(address2),
+      [],
+      PlainMessage.create(message),
+      NetworkType.TEST_NET,
+      UInt64.fromUint(2000000)
+    )
 
     const agtx = AggregateTransaction.createComplete(
       Deadline.create(1637848847),
-      [tx1.toAggregate(acc), tx2.toAggregate(acc)],
+      [tx1.toAggregate(acc), tx2.toAggregate(acc), tx3.toAggregate(acc)],
       NetworkType.TEST_NET,
       [],
       UInt64.fromUint(2000000)
